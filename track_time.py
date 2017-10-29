@@ -2,9 +2,9 @@ import argparse, csv, os.path
 from datetime import datetime
 
 parser = argparse.ArgumentParser(description='Track time working on a task.')
-parser.add_argument('-s', '--start', help='starts timer', metavar='task')
+parser.add_argument('-s', '--start', help='starts timer for specified task', metavar='task')
 # parser.add_argument('task', help='specify task working on')
-parser.add_argument('-e', '--end', action='store_true', help='end timer')
+parser.add_argument('-e', '--end', action='store_true', help='end last running timer')
 # action="store_true" assigns True to args.verbose
 # parser.add_argument("--verbose", help="increase output verbosity", action="store_true")
 # choices specifies valid parameters for an argument
@@ -22,7 +22,6 @@ task = "unknown"
 hours = -1
 
 if args.start:
-    print(args.start)
     file_exists = os.path.isfile(ACTIVITY_CSV)
 
     with open(ACTIVITY_CSV, 'a') as csvfile: # with takes care of closing the file properly (best practice)
@@ -30,6 +29,7 @@ if args.start:
         if not file_exists:
             writer.writeheader() # if file doesn't exist yet, write a header
         writer.writerow({'activity': args.start, 'date': today_string, 'start': time_string, 'end': '', 'hours': ''})
+    print("You have started a new task called '" + args.start + "'.")
 
 elif args.end:
     temp = []
@@ -38,7 +38,7 @@ elif args.end:
         for row in reader:
             temp.append(row)
 
-    # clear old file        
+    # clear file before writing lines again.
     with open(ACTIVITY_CSV, 'w') as csvfile:
         csvfile.write("")
 
