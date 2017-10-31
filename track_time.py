@@ -11,7 +11,7 @@ parser.add_argument('-e', '--end', action='store_true', help='end last running t
 # parser.add_argument("--level", choices=[0, 1, 2])
 
 args = parser.parse_args()
-ACTIVITY_CSV = 'activities.csv'
+ACTIVITY_CSV = os.path.expanduser('~/dev/python/track-time/activities.csv')
 fieldnames = ['activity', 'date', 'start', 'end', 'hours']
 
 today = datetime.today()
